@@ -1,7 +1,8 @@
 import type { ActionBlockDefinition, ValueBlockDefinition } from './types';
 
+export const ON_START = 'com.github.m93a.automatik.onStart';
 export const onStart: ActionBlockDefinition = {
-  uuid: 'com.github.m93a.automatik.onStart',
+  uuid: ON_START,
   type: 'action',
   isHat: true,
   connections: [],
@@ -11,8 +12,9 @@ export const onStart: ActionBlockDefinition = {
   }
 };
 
+export const IF = 'com.github.m93a.automatik.if';
 export const if_: ActionBlockDefinition = {
-  uuid: 'com.github.m93a.automatik.if',
+  uuid: IF,
   type: 'action',
   connections: [
     { name: 'condition', type: 'value' },
@@ -29,8 +31,9 @@ export const if_: ActionBlockDefinition = {
   }
 };
 
+export const IF_ELSE = 'com.github.m93a.automatik.ifElse';
 export const ifElse: ActionBlockDefinition = {
-  uuid: 'com.github.m93a.automatik.ifElse',
+  uuid: IF_ELSE,
   type: 'action',
   connections: [
     { name: 'condition', type: 'value' },
@@ -52,8 +55,9 @@ export const ifElse: ActionBlockDefinition = {
   }
 };
 
+export const SEND_MAIL = 'com.github.m93a.automatik.sendMail';
 export const sendMail: ActionBlockDefinition = {
-  uuid: 'com.github.m93a.automatik.sendMail',
+  uuid: SEND_MAIL,
   type: 'action',
   connections: [
     { name: 'subject', type: 'value' },
@@ -74,8 +78,9 @@ export const sendMail: ActionBlockDefinition = {
   }
 };
 
+export const CUSTOMER_NAME = 'com.github.m93a.automatik.customerName';
 export const customerName: ValueBlockDefinition = {
-  uuid: 'com.github.m93a.automatik.customerName',
+  uuid: CUSTOMER_NAME,
   type: 'value',
 
   defaultLocalization: {
@@ -83,8 +88,9 @@ export const customerName: ValueBlockDefinition = {
   }
 };
 
+export const CUSTOMER_EMAIL = 'com.github.m93a.automatik.customerEmail';
 export const customerEmail: ValueBlockDefinition = {
-  uuid: 'com.github.m93a.automatik.customerEmail',
+  uuid: CUSTOMER_EMAIL,
   type: 'value',
 
   defaultLocalization: {
