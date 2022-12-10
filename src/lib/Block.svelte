@@ -41,9 +41,9 @@
       {:else if 'connections' in part}
         <svelte:self {definitions} stack={[part]} />
       {:else if part.type === 'text'}
-        <span>{part.content}</span>
+        <span class="part-text">{part.content}</span>
       {:else if part.type === 'icon'}
-        <span>😏</span>
+        <span class="part-icon">😏</span>
       {:else if part.type === 'connection'}
         <StringLiteral defaultValue={part.defaultValue} />
       {:else if part.type === 'line-break'}
@@ -61,7 +61,8 @@
 
     &.action-block {
       border-left: 5px hsl(0, 0%, 70%) solid;
-      padding: 10px 5px;
+      padding: 10px;
+      margin-left: 0;
     }
 
     &.value-block {
