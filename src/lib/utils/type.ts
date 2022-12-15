@@ -102,7 +102,11 @@ type ResolveReferencesInTuple<
   ] :
   never;
 
-export const label = <T extends Schema>(label: string | symbol, type: T) => {};
+export const label = <N extends string | symbol, T extends Schema>(
+  label: N,
+  type: T
+): ResolveReferences<N, T> =>
+  deepMap<any>(type, (x) => (x.type === 'reference' && x.label === label ? type : x));
 
 export type Schema =
   | StringSchema
@@ -111,10 +115,11 @@ export type Schema =
   | BooleanSchema
   | SymbolSchema
   | LiteralSchema<any>
-  | UnionSchema<any>
-  | IntersectionSchema<any>
+  | UnionSchema<any[]>
+  | IntersectionSchema<any[]>
   | ArraySchema<any>
-  | RecordSchema<any>;
+  | RecordSchema<any>
+  | ReferenceToLabel<any>;
 
 // prettier-ignore
 type SchemaTupleToUnion<T> =
@@ -143,3 +148,40 @@ export type Type<T extends Schema> =
     [K in keyof S]: S[K] extends Schema ? Type<S[K]> : never
   } :
   never;
+
+export const deepMap = <S extends Schema = Schema>(schema: Schema, fn: (x: Schema) => S): S => {
+  switch (schema.type) {
+    case 'string':
+    case 'number':
+    case 'bigint':
+    case 'boolean':
+    case 'symbol':
+    case 'literal':
+    case 'reference':
+      return fn(schema);
+
+    case 'union':
+      return fn({
+        ...schema,
+        options: schema.options.map(fn)
+      });
+
+    case 'intersection':
+      return fn({
+        ...schema,
+        demands: schema.demands.map(fn)
+      });
+
+    case 'array':
+      return fn({
+        ...schema,
+        element: fn(schema.element)
+      });
+
+    case 'record':
+      return fn({
+        ...schema,
+        shape: Object.fromEntries(Object.entries<Schema>(schema.shape).map(([k, v]) => [k, fn(v)]))
+      });
+  }
+};
